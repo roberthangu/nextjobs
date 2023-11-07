@@ -1,0 +1,193 @@
+import { FC } from "react";
+import Badge from "react-bootstrap/esm/Badge";
+import Button from "react-bootstrap/esm/Button";
+import Card from "react-bootstrap/esm/Card";
+import Col from "react-bootstrap/esm/Col";
+import Row from "react-bootstrap/esm/Row";
+import Stack from "react-bootstrap/esm/Stack";
+import { Job } from "./index.d";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import jobSample from "./test/jobSample";
+import { faBuilding } from "@fortawesome/free-regular-svg-icons";
+import {
+    faBriefcase,
+    faCalendarDays,
+    faListCheck,
+    faUsers
+} from "@fortawesome/free-solid-svg-icons";
+
+export default function JobCard() {
+    return <JobCardController view={JobCardView} />;
+}
+
+function JobCardController(props: { view: FC<JobCardViewProps> }) {
+    const job = {
+        ...jobSample,
+        lastmod: new Date(jobSample.lastmod),
+        postedAt: new Date(jobSample.postedAt)
+    };
+    return props.view({ job });
+}
+
+function RoleDetails(props: {
+    role: string;
+    similarity: number;
+    company: string;
+    compIndShort: string; // Payments enablement
+    location: string;
+    workType: string; // remote
+    employment: string; // permament
+    yearsExperience: number; // 4
+    jobLevel: string; // Senior Level
+    pay?: string; // 30000
+    companySize: string; // 1001 - 5000 employees
+    benefits: string[]; // ["Competitive salary", "Stock options", "Global induction"]
+}) {
+    return (
+        <Stack className="gap-4">
+            <Stack className="gap-1">
+                <p className="m-0">
+                    <span className="fw-semibold">{props.company}</span> (
+                    {props.compIndShort})
+                </p>
+                <Stack direction="horizontal" className="gap-2">
+                    <span>{props.location}</span>
+                    <Badge bg="primary" className="text-uppercase">
+                        {props.workType}
+                    </Badge>
+                    <Badge bg="primary" className="text-uppercase">
+                        {props.employment}
+                    </Badge>
+                </Stack>
+                <span className="text-secondary">
+                    {props.yearsExperience} years experience ∙ {props.jobLevel}{" "}
+                    ∙ {props.pay}
+                </span>
+            </Stack>
+            <Stack gap={1}>
+                <Stack direction="horizontal" className="gap-2">
+                    <FontAwesomeIcon icon={faUsers} />
+                    <span>{props.companySize}</span>
+                </Stack>
+                <Stack direction="horizontal" className="gap-2">
+                    {props.benefits.map(b => (
+                        <Badge bg="success">{b}</Badge>
+                    ))}
+                </Stack>
+            </Stack>
+        </Stack>
+    );
+}
+
+function CompanyDetails(props: {
+    compFocusShort: string;
+    roleActivitiesShort: string;
+    roleReqsShort: string;
+    stackDirection: "horizontal" | "vertical";
+}) {
+    return (
+        <Stack direction={props.stackDirection} className="gap-3">
+            <Stack direction="horizontal" gap={4}>
+                <div
+                    style={{ width: "60px", height: "30px" }}
+                    className="text-center"
+                >
+                    <FontAwesomeIcon icon={faBuilding} className="fs-2" />
+                </div>
+                <p className="m-0">
+                    <span className="fw-semibold">Company</span>:{" "}
+                    {props.compFocusShort}
+                </p>
+            </Stack>
+            <Stack direction="horizontal" gap={4}>
+                <div style={{ width: "60px", height: "30px" }}className="text-center">
+                    <FontAwesomeIcon
+                        icon={faBriefcase}
+                        className="fs-2 text-center"
+                    />
+                </div>
+                <p className="m-0">
+                    <span className="fw-semibold">Role</span>:{" "}
+                    {props.roleReqsShort}
+                </p>
+            </Stack>
+            <Stack direction="horizontal" gap={4}>
+                <div style={{ width: "60px", height: "30px" }}className="text-center">
+                    <FontAwesomeIcon icon={faListCheck} className="fs-2" />
+                </div>
+                <p className="m-0">
+                    <span className="fw-semibold">Requirements</span>:{" "}
+                    {props.roleReqsShort}
+                </p>
+            </Stack>
+        </Stack>
+    );
+}
+
+function Personalization(props: {
+    commonalities: string;
+    positioning: string;
+}) {
+    return (
+        <Row xs={2} className="text-bg-secondary p-4 mx-0">
+            <Col>
+                <p className="fs-5">Why am I a good fit?</p>
+                <p>{props.commonalities}</p>
+            </Col>
+            <Col>
+                <p className="fs-5">How can I best position myself for this job?</p>
+                <p>{props.positioning}</p>
+            </Col>
+        </Row>
+    );
+}
+
+interface JobCardViewProps {
+    job: Job;
+}
+
+function JobCardView(props: JobCardViewProps) {
+    const { job } = props;
+    return (
+        <Card>
+            <Stack>
+                <Stack
+                    direction="horizontal"
+                    className="justify-content-between pt-3 px-4"
+                >
+                    <span className="fs-4 fw-semibold">{job.role}</span>
+                    <span className="fw-semibold text-danger">
+                        🔥 {job.similarity} Similarity
+                    </span>
+                </Stack>
+                <Row xs={1} md={2} className="pb-4 px-4 g-5">
+                    <Col>
+                        <RoleDetails {...job} />
+                    </Col>
+                    <Col>
+                        <CompanyDetails {...job} stackDirection="vertical" />
+                    </Col>
+                </Row>
+                <Personalization
+                    commonalities="Your profile shows that you have extensive experience in marketing and event planning, which is relevant for this role."
+                    positioning="Your profile shows that you have extensive experience in marketing and event planning, which is relevant for this role."
+                />
+            </Stack>
+            <Row className="p-3 align-items-center">
+                <Col>
+                    <FontAwesomeIcon
+                        icon={faCalendarDays}
+                        className="fs-5 me-2"
+                    />
+                    {job.postedAt.toLocaleDateString()}
+                </Col>
+                <Col xs="auto">
+                    <Button variant="outline-primary">Learn More</Button>
+                </Col>
+                <Col xs="auto">
+                    <Button>Apply</Button>
+                </Col>
+            </Row>
+        </Card>
+    );
+}
