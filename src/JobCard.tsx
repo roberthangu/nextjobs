@@ -100,7 +100,10 @@ function CompanyDetails(props: {
                 </p>
             </Stack>
             <Stack direction="horizontal" gap={4}>
-                <div style={{ width: "60px", height: "30px" }}className="text-center">
+                <div
+                    style={{ width: "60px", height: "30px" }}
+                    className="text-center"
+                >
                     <FontAwesomeIcon
                         icon={faBriefcase}
                         className="fs-2 text-center"
@@ -112,7 +115,10 @@ function CompanyDetails(props: {
                 </p>
             </Stack>
             <Stack direction="horizontal" gap={4}>
-                <div style={{ width: "60px", height: "30px" }}className="text-center">
+                <div
+                    style={{ width: "60px", height: "30px" }}
+                    className="text-center"
+                >
                     <FontAwesomeIcon icon={faListCheck} className="fs-2" />
                 </div>
                 <p className="m-0">
@@ -129,13 +135,13 @@ function Personalization(props: {
     positioning: string;
 }) {
     return (
-        <Row xs={2} className="text-bg-secondary p-4 mx-0">
-            <Col>
-                <p className="fs-5">Why am I a good fit?</p>
+        <Row className="text-bg-secondary px-3 px-sm-4 py-4 mx-0">
+            <Col xs={12} md={6} className="px-0 pe-md-3">
+                <h5>Why am I a good fit?</h5>
                 <p>{props.commonalities}</p>
             </Col>
-            <Col>
-                <p className="fs-5">How can I best position myself for this job?</p>
+            <Col xs={12} md={6} className="px-0 ps-md-3">
+                <h5>How can I best position myself for this job?</h5>
                 <p>{props.positioning}</p>
             </Col>
         </Row>
@@ -151,16 +157,31 @@ function JobCardView(props: JobCardViewProps) {
     return (
         <Card>
             <Stack>
-                <Stack
-                    direction="horizontal"
-                    className="justify-content-between pt-3 px-4"
+                <Row className="pt-3 px-3 px-sm-4">
+                    <Col
+                        xs={{ span: 12, order: 2 }}
+                        sm={{ span: 7, order: 1 }}
+                        md={{ span: 5, order: 1 }}
+                        lg={3}
+                    >
+                        <h4 className="fw-semibold">{job.role}</h4>
+                    </Col>
+                    <Col
+                        xs={{ span: 12, order: 1 }}
+                        sm={{ span: 5, order: 2 }}
+                        md={{ span: 7, order: 2 }}
+                        lg={7}
+                    >
+                        <span className="fw-semibold text-danger">
+                            🔥 {job.similarity} Similarity
+                        </span>
+                    </Col>
+                </Row>
+                <Row
+                    xs={1}
+                    md={2}
+                    className="pb-4 px-3 px-sm-4 pb-5 pb-sm-4 g-5"
                 >
-                    <span className="fs-4 fw-semibold">{job.role}</span>
-                    <span className="fw-semibold text-danger">
-                        🔥 {job.similarity} Similarity
-                    </span>
-                </Stack>
-                <Row xs={1} md={2} className="pb-4 px-4 g-5">
                     <Col>
                         <RoleDetails {...job} />
                     </Col>
@@ -173,19 +194,21 @@ function JobCardView(props: JobCardViewProps) {
                     positioning="Your profile shows that you have extensive experience in marketing and event planning, which is relevant for this role."
                 />
             </Stack>
-            <Row className="p-3 align-items-center">
-                <Col>
+            <Row className="p-3 px-sm-4 align-items-center gx-2">
+                <Col xs={12} sm={6} className="mb-2 my-sm-0">
                     <FontAwesomeIcon
                         icon={faCalendarDays}
                         className="fs-5 me-2"
                     />
                     {job.postedAt.toLocaleDateString()}
                 </Col>
-                <Col xs="auto">
-                    <Button variant="outline-primary">Learn More</Button>
+                <Col xs={12} sm={3} className="my-1 my-sm-0">
+                    <Button variant="outline-primary" className="w-100">
+                        Learn More
+                    </Button>
                 </Col>
-                <Col xs="auto">
-                    <Button>Apply</Button>
+                <Col xs={12} sm={3} className="my-1 my-sm-0">
+                    <Button className="w-100">Apply</Button>
                 </Col>
             </Row>
         </Card>
