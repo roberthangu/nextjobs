@@ -31,16 +31,16 @@ export default function PreferencesFormView(props: PreferenceFormViewProps) {
                 <Stack gap={4}>
                     <Form.Group>
                         <Form.Label>
-                            1. Describe your perfect job environment
+                            1. Describe what job you're looking for.
                         </Form.Label>
                         <Form.Control
                             as="textarea"
-                            placeholder="I thrive in a competitive environment..."
+                            placeholder="Product manager in the finance industry."
                             value={jobEnv}
                             onChange={e => setJobEnv(e.target.value)} />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>2. Paste your CV contents here</Form.Label>
+                        <Form.Label>2. Describe yourself / Paste your CV here</Form.Label>
                         <Form.Control
                             as="textarea"
                             placeholder="Jon Doe, Experience: 2020 - 2023: ..."
@@ -49,7 +49,7 @@ export default function PreferencesFormView(props: PreferenceFormViewProps) {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>
-                            3. Describe your values in the workplace
+                            3. Describe your perfect work environment.
                         </Form.Label>
                         <Form.Control
                             as="textarea"

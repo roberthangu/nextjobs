@@ -5,13 +5,13 @@ const jobSample = {
     company: "Flywire",
     location: "Spain",
     listedIndustry: "Unrelated payments",
-    compIndShort: "Payments enablement and software",
+    compIndShort: "Retail",
     compFocusShort:
-        "Delivering important and complex payments, solving high-stakes, high-value payments in education",
-    roleReqsShort:
-        "Driving impact in the rapidly growing business by identifying and solving problems that provide value.",
+        "Finance and business leadership",
     roleActivitiesShort:
-        "4+ years of product management experience in a SaaS software company & payments landscape",
+        "Budget and forecast compilation, process improvement and efficiency modeling, business partnering, and managing period-end financials.",
+    roleReqsShort:
+        "Fully qualified in ACA/CIMA/ACMA, experience with data consolidation and modeling, proficiency in Excel, and knowledge of TMI and Power BI preferred.",
     yearsExperience: 4,
     postedAt: "2023-07-13",
     employment: "Permanent",
