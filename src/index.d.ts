@@ -8,7 +8,7 @@ export interface Job {
     company: string;
     location: string;
     listedIndustry: string;
-    postedAt: Date;
+    postedAt: string;
     employment: string;
     workType: string;
     jobLevel: string;
@@ -22,12 +22,12 @@ export interface Job {
     recruiterAddress?: string;
     recruiterUrl?: string;
     recruiterEmail?: string;
-    pay?: string;
-    closingDate?: Date;
+    pay: string;
+    closingDate?: string;
     scrapingUrl: string;
     originalPostingUrl: string;
     logoUrl: string;
-    lastmod: Date;
+    lastmod: string;
     compIndShort: string;
     compFocusShort: string;
     roleReqsShort: string;
@@ -35,12 +35,8 @@ export interface Job {
     extrRecruiterInd?: string;
     embedding: number[];
     similarity: number;
-}
 
-/**
- * The complete job information
- */
-export interface PersonalizedJob extends Job {
+    // TODO Move these out in case of performance issues
     commonalities: string;
     positioning: string;
 }

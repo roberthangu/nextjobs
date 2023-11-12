@@ -4,25 +4,20 @@ import Container from "react-bootstrap/esm/Container";
 import Form from "react-bootstrap/esm/Form";
 import Stack from "react-bootstrap/esm/Stack";
 
-
-export interface PreferenceFormViewProps {
+export default function PreferencesFormView(props: {
     onSubmit: (payload: {
-        jobEnv: string;
-        cvContents: string;
-        values: string;
-    }) => void;
-}
+        desiredJob: string;
+        profile: string;
+        workEnv: string;
+    }) => Promise<void>;
+}) {
+    const [desiredJob, setJobEnv] = useState("");
+    const [profile, setCvContents] = useState("");
+    const [workEnv, setValues] = useState("");
 
-
-
-export default function PreferencesFormView(props: PreferenceFormViewProps) {
-    const [jobEnv, setJobEnv] = useState("");
-    const [cvContents, setCvContents] = useState("");
-    const [values, setValues] = useState("");
-
-    const onDetailsSubmitted = (e: FormEvent<HTMLFormElement>) => {
+    const onDetailsSubmitted = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        props.onSubmit({ jobEnv, cvContents, values });
+        await props.onSubmit({ desiredJob, profile, workEnv });
     };
 
     return (
@@ -36,16 +31,20 @@ export default function PreferencesFormView(props: PreferenceFormViewProps) {
                         <Form.Control
                             as="textarea"
                             placeholder="Product manager in the finance industry."
-                            value={jobEnv}
-                            onChange={e => setJobEnv(e.target.value)} />
+                            value={desiredJob}
+                            onChange={e => setJobEnv(e.target.value)}
+                        />
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>2. Describe yourself / Paste your CV here</Form.Label>
+                        <Form.Label>
+                            2. Describe yourself / Paste your CV here
+                        </Form.Label>
                         <Form.Control
                             as="textarea"
                             placeholder="Jon Doe, Experience: 2020 - 2023: ..."
-                            value={cvContents}
-                            onChange={e => setCvContents(e.target.value)} />
+                            value={profile}
+                            onChange={e => setCvContents(e.target.value)}
+                        />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>
@@ -54,8 +53,9 @@ export default function PreferencesFormView(props: PreferenceFormViewProps) {
                         <Form.Control
                             as="textarea"
                             placeholder="I value camaraderie, honesty and ..."
-                            value={values}
-                            onChange={e => setValues(e.target.value)} />
+                            value={workEnv}
+                            onChange={e => setValues(e.target.value)}
+                        />
                     </Form.Group>
                     <Button type="submit">✨ Find My Job!</Button>
                 </Stack>
@@ -63,4 +63,3 @@ export default function PreferencesFormView(props: PreferenceFormViewProps) {
         </Container>
     );
 }
-

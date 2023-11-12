@@ -1,4 +1,3 @@
-import { FC } from "react";
 import Badge from "react-bootstrap/esm/Badge";
 import Button from "react-bootstrap/esm/Button";
 import Card from "react-bootstrap/esm/Card";
@@ -7,7 +6,6 @@ import Row from "react-bootstrap/esm/Row";
 import Stack from "react-bootstrap/esm/Stack";
 import { Job } from "./index.d";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import jobSample from "./test/jobSample";
 import { faBuilding } from "@fortawesome/free-regular-svg-icons";
 import {
     faBriefcase,
@@ -15,19 +13,6 @@ import {
     faListCheck,
     faUsers
 } from "@fortawesome/free-solid-svg-icons";
-
-export default function JobCard() {
-    return <JobCardController view={JobCardView} />;
-}
-
-function JobCardController(props: { view: FC<JobCardViewProps> }) {
-    const job = {
-        ...jobSample,
-        lastmod: new Date(jobSample.lastmod),
-        postedAt: new Date(jobSample.postedAt)
-    };
-    return props.view({ job });
-}
 
 function RoleDetails(props: {
     role: string;
@@ -69,11 +54,13 @@ function RoleDetails(props: {
                     <FontAwesomeIcon icon={faUsers} />
                     <span>{props.companySize}</span>
                 </Stack>
-                <Stack direction="horizontal" className="gap-2">
+                <Row xs="auto" className="gx-1 gy-1">
                     {props.benefits.map(b => (
+                        <Col>
                         <Badge bg="success">{b}</Badge>
+                        </Col>
                     ))}
-                </Stack>
+                </Row>
             </Stack>
         </Stack>
     );
@@ -152,10 +139,10 @@ interface JobCardViewProps {
     job: Job;
 }
 
-function JobCardView(props: JobCardViewProps) {
+export function JobCardView(props: JobCardViewProps) {
     const { job } = props;
     return (
-        <Card>
+        <Card className="shadow">
             <Stack>
                 <Row className="pt-3 px-3 px-sm-4">
                     <Col
@@ -173,7 +160,7 @@ function JobCardView(props: JobCardViewProps) {
                         lg={7}
                     >
                         <span className="fw-semibold text-danger">
-                            🔥 {job.similarity} Similarity
+                            🔥 {(job.similarity * 100).toPrecision(3)} Similarity
                         </span>
                     </Col>
                 </Row>
@@ -190,8 +177,8 @@ function JobCardView(props: JobCardViewProps) {
                     </Col>
                 </Row>
                 <Personalization
-                    commonalities="Your profile shows that you have extensive experience in marketing and event planning, which is relevant for this role."
-                    positioning="Your profile shows that you have extensive experience in marketing and event planning, which is relevant for this role."
+                    commonalities={job.commonalities}
+                    positioning={job.positioning}
                 />
             </Stack>
             <Row className="p-3 px-sm-4 align-items-center gx-2">
@@ -200,7 +187,7 @@ function JobCardView(props: JobCardViewProps) {
                         icon={faCalendarDays}
                         className="fs-5 me-2"
                     />
-                    {job.postedAt.toLocaleDateString()}
+                    {new Date(job.postedAt).toLocaleDateString()}
                 </Col>
                 <Col xs={12} sm={3} className="my-1 my-sm-0">
                     <Button variant="outline-primary" className="w-100">
