@@ -89,7 +89,7 @@ function CompanyDetails(props: {
         <Stack direction={props.stackDirection} className="gap-3">
             <Stack direction="horizontal" gap={4}>
                 <div
-                    style={{ width: "60px", height: "30px" }}
+                    style={{ width: "30px", height: "30px" }}
                     className="text-center"
                 >
                     <FontAwesomeIcon icon={faBuilding} className="fs-2" />
@@ -101,7 +101,7 @@ function CompanyDetails(props: {
             </Stack>
             <Stack direction="horizontal" gap={4}>
                 <div
-                    style={{ width: "60px", height: "30px" }}
+                    style={{ width: "30px", height: "30px" }}
                     className="text-center"
                 >
                     <FontAwesomeIcon
@@ -111,12 +111,12 @@ function CompanyDetails(props: {
                 </div>
                 <p className="m-0">
                     <span className="fw-semibold">Role</span>:{" "}
-                    {props.roleReqsShort}
+                    {props.roleActivitiesShort}
                 </p>
             </Stack>
             <Stack direction="horizontal" gap={4}>
                 <div
-                    style={{ width: "60px", height: "30px" }}
+                    style={{ width: "30px", height: "30px" }}
                     className="text-center"
                 >
                     <FontAwesomeIcon icon={faListCheck} className="fs-2" />
