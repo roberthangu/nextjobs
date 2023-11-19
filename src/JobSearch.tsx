@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
-import { Spinner } from "react-bootstrap";
+import Container from "react-bootstrap/esm/Container";
+import Spinner from "react-bootstrap/esm/Spinner";
 import Card from "react-bootstrap/esm/Card";
 import Stack from "react-bootstrap/esm/Stack";
 import Config from "./config";
@@ -44,8 +45,14 @@ function JobSearchController(props: { view: FC<JobSearchViewProps> }) {
                 workEnv: p.workEnv
             })
         });
-        const ja = await res.json();
-        setJobs(ja);
+        try {
+            const ja = await res.json();
+            setJobs(ja);
+        } catch (e) {
+            const err = e as Error;
+            console.error(err.name, err.message);
+            setJobs([]);
+        }
     };
 
     return props.view({ jobs, onPreferencesSubmitted, showWelcome });
@@ -66,25 +73,29 @@ function Welcome() {
     return (
         <Card>
             <Card.Body className="d-flex justify-content-center align-items-center">
-            <Stack className="align-items-center" gap={2}>
-            <span>💼</span>
-            <span>Enter details and find your dream job!</span>
-            </Stack>
+                <Stack className="align-items-center" gap={2}>
+                    <span>💼</span>
+                    <span>Enter details and find your dream job!</span>
+                </Stack>
             </Card.Body>
         </Card>
-           );
+    );
 }
 
 function JobSearchView(props: JobSearchViewProps) {
     return (
-        <Stack gap={4}>
-            <PreferencesFormView onSubmit={props.onPreferencesSubmitted} />
-            {props.showWelcome && <Welcome />}
-            {!props.showWelcome && props.jobs.length === 0 ? (
-                <Placeholder />
-            ) : (
-                props.jobs.map(job => <JobCardView job={job} />)
-            )}
-        </Stack>
+        <Container style={{ marginTop: "100px" }}>
+            <Stack gap={4} className="mb-5">
+                <PreferencesFormView onSubmit={props.onPreferencesSubmitted} />
+                {props.showWelcome && <Welcome />}
+                {!props.showWelcome && props.jobs.length === 0 ? (
+                    <Placeholder />
+                ) : (
+                    props.jobs.map(job => (
+                        <JobCardView key={job.id} job={job} />
+                    ))
+                )}
+            </Stack>
+        </Container>
     );
 }
