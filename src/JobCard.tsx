@@ -13,6 +13,8 @@ import {
     faListCheck,
     faUsers
 } from "@fortawesome/free-solid-svg-icons";
+import Modal from "react-bootstrap/esm/Modal";
+import { useState } from "react";
 
 function RoleDetails(props: {
     role: string;
@@ -35,18 +37,28 @@ function RoleDetails(props: {
                     <span className="fw-semibold">{props.company}</span> (
                     {props.compIndShort})
                 </p>
-                <Stack direction="horizontal" className="gap-2">
-                    <span>{props.location}</span>
-                    <Badge bg="primary" className="text-uppercase">
-                        {props.workType}
-                    </Badge>
-                    <Badge bg="primary" className="text-uppercase">
-                        {props.employment}
-                    </Badge>
-                </Stack>
+                <Row xs={1} lg={2} direction="horizontal">
+                    <Col>
+                        <span>{props.location}</span>
+                    </Col>
+                    <Col>
+                        <Row xs="auto" className="gx-1">
+                            <Col>
+                                <Badge bg="primary" className="text-uppercase">
+                                    {props.workType}
+                                </Badge>
+                            </Col>
+                            <Col>
+                                <Badge bg="primary" className="text-uppercase">
+                                    {props.employment}
+                                </Badge>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
                 <span className="text-secondary">
-                    {props.yearsExperience} years experience ∙ {props.jobLevel}{" "}
-                    ∙ {props.pay}
+                    Experience {props.yearsExperience} ∙ Level {props.jobLevel}{" "}
+                    ∙ Pay {props.pay}
                 </span>
             </Stack>
             <Stack gap={1}>
@@ -56,8 +68,8 @@ function RoleDetails(props: {
                 </Stack>
                 <Row xs="auto" className="gx-1 gy-1">
                     {props.benefits.map(b => (
-                        <Col>
-                        <Badge bg="success">{b}</Badge>
+                        <Col key={b}>
+                            <Badge bg="success">{b}</Badge>
                         </Col>
                     ))}
                 </Row>
@@ -121,6 +133,12 @@ function Personalization(props: {
     commonalities: string;
     positioning: string;
 }) {
+    console.log(
+        "commonalities:",
+        props.commonalities,
+        "positioning:",
+        props.positioning
+    );
     return (
         <Row className="text-bg-secondary px-3 px-sm-4 py-4 mx-0">
             <Col xs={12} md={6} className="px-0 pe-md-3">
@@ -139,65 +157,117 @@ interface JobCardViewProps {
     job: Job;
 }
 
+function JobDetails(props: {
+    role: string;
+    jobDescription: string;
+    originalPostingUrl: string;
+    show: boolean;
+    onHide: () => void;
+}) {
+    return (
+        <Modal show={props.show} onHide={props.onHide}>
+            <Modal.Header closeButton>
+                <Modal.Title>{props.role}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <h5>Job Details</h5>
+                <p>{props.jobDescription}</p>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={props.onHide}>Close</Button>
+                <Button
+                    variant="primary"
+                    href={props.originalPostingUrl}
+                    target="_blank"
+                >
+                    Apply
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+}
+
 export function JobCardView(props: JobCardViewProps) {
     const { job } = props;
+    const [showJobDesc, setShowJobDesc] = useState(false);
     return (
-        <Card className="shadow">
-            <Stack>
-                <Row className="pt-3 px-3 px-sm-4">
-                    <Col
-                        xs={{ span: 12, order: 2 }}
-                        sm={{ span: 7, order: 1 }}
-                        md={{ span: 5, order: 1 }}
-                        lg={3}
+        <>
+            <Card className="shadow">
+                <Stack>
+                    <Row className="pt-3 px-3 px-sm-4">
+                        <Col
+                            xs={{ span: 12, order: 2 }}
+                            sm={{ span: 7, order: 1 }}
+                            md={{ span: 5, order: 1 }}
+                            lg={3}
+                        >
+                            <h4 className="fw-semibold">{job.role}</h4>
+                        </Col>
+                        <Col
+                            xs={{ span: 12, order: 1 }}
+                            sm={{ span: 5, order: 2 }}
+                            md={{ span: 7, order: 2 }}
+                            lg={7}
+                        >
+                            <span className="fw-semibold text-danger">
+                                🔥 {(job.similarity * 100).toPrecision(3)}{" "}
+                                Similarity
+                            </span>
+                        </Col>
+                    </Row>
+                    <Row
+                        xs={1}
+                        md={2}
+                        className="pb-4 px-3 px-sm-4 pb-5 pb-sm-4 g-5"
                     >
-                        <h4 className="fw-semibold">{job.role}</h4>
-                    </Col>
-                    <Col
-                        xs={{ span: 12, order: 1 }}
-                        sm={{ span: 5, order: 2 }}
-                        md={{ span: 7, order: 2 }}
-                        lg={7}
-                    >
-                        <span className="fw-semibold text-danger">
-                            🔥 {(job.similarity * 100).toPrecision(3)} Similarity
-                        </span>
-                    </Col>
-                </Row>
-                <Row
-                    xs={1}
-                    md={2}
-                    className="pb-4 px-3 px-sm-4 pb-5 pb-sm-4 g-5"
-                >
-                    <Col>
-                        <RoleDetails {...job} />
-                    </Col>
-                    <Col>
-                        <CompanyDetails {...job} stackDirection="vertical" />
-                    </Col>
-                </Row>
-                <Personalization
-                    commonalities={job.commonalities}
-                    positioning={job.positioning}
-                />
-            </Stack>
-            <Row className="p-3 px-sm-4 align-items-center gx-2">
-                <Col xs={12} sm={6} className="mb-2 my-sm-0">
-                    <FontAwesomeIcon
-                        icon={faCalendarDays}
-                        className="fs-5 me-2"
+                        <Col>
+                            <RoleDetails {...job} />
+                        </Col>
+                        <Col>
+                            <CompanyDetails
+                                {...job}
+                                stackDirection="vertical"
+                            />
+                        </Col>
+                    </Row>
+                    <Personalization
+                        commonalities={job.commonalities}
+                        positioning={job.positioning}
                     />
-                    {new Date(job.postedAt).toLocaleDateString()}
-                </Col>
-                <Col xs={12} sm={3} className="my-1 my-sm-0">
-                    <Button variant="outline-primary" className="w-100">
-                        Learn More
-                    </Button>
-                </Col>
-                <Col xs={12} sm={3} className="my-1 my-sm-0">
-                    <Button className="w-100">Apply</Button>
-                </Col>
-            </Row>
-        </Card>
+                </Stack>
+                <Row className="p-3 px-sm-4 align-items-center gx-2">
+                    <Col xs={12} sm={6} className="mb-2 my-sm-0">
+                        <FontAwesomeIcon
+                            icon={faCalendarDays}
+                            className="fs-5 me-2"
+                        />
+                        {new Date(job.postedAt).toLocaleDateString()}
+                    </Col>
+                    <Col xs={12} sm={3} className="my-1 my-sm-0">
+                        <Button
+                            variant="outline-primary"
+                            className="w-100"
+                            onClick={() => setShowJobDesc(true)}
+                        >
+                            Learn More
+                        </Button>
+                    </Col>
+                    <Col xs={12} sm={3} className="my-1 my-sm-0">
+                        <Button
+                            className="w-100"
+                            href={job.originalPostingUrl}
+                            target="_blank"
+                        >
+                            Apply
+                        </Button>
+                    </Col>
+                </Row>
+            </Card>
+            <JobDetails
+                {...job}
+                onHide={() => setShowJobDesc(false)}
+                show={showJobDesc}
+            />
+        </>
     );
 }
