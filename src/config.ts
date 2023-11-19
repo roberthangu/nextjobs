@@ -1,5 +1,5 @@
 const Config = {
-    BACKEND_URL: "http://localhost:8080"
+    BACKEND_URL: "https://llamojobs-backend-zzggtoazzq-ew.a.run.app"
 };
 
 export default Config;
