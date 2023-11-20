@@ -19,11 +19,15 @@ function App() {
             <JobSearch />
             <Stack
                 direction="horizontal"
-                className="justify-content-center text-secondary"
+                className="justify-content-center text-secondary mb-4"
             >
                 <span>
                     (c) 2023{" "}
-                    <a href="https://nextops.agency/?utm_source=nextjobs&utm_medium=footer">
+                    <a
+                        href="https://nextops.agency/?utm_source=nextjobs&utm_medium=footer"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
                         Next Operations
                     </a>
                 </span>

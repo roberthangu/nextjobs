@@ -5,8 +5,9 @@ import Card from "react-bootstrap/esm/Card";
 import Stack from "react-bootstrap/esm/Stack";
 import Config from "./config";
 import { Job } from "./index.d";
-import { JobCardView } from "./JobCard";
+import { JobCard } from "./JobCard";
 import PreferencesFormView from "./PreferencesFormView";
+import { useLogEvent } from "./FirebaseProvider";
 
 interface JobSearchViewProps {
     jobs: Job[];
@@ -25,6 +26,7 @@ export default function JobSearch() {
 function JobSearchController(props: { view: FC<JobSearchViewProps> }) {
     const [jobs, setJobs] = useState([] as Job[]);
     const [showWelcome, setShowWelcome] = useState(true);
+    const logEvent = useLogEvent();
 
     const onPreferencesSubmitted = async (p: {
         desiredJob: string;
@@ -33,6 +35,11 @@ function JobSearchController(props: { view: FC<JobSearchViewProps> }) {
     }) => {
         setShowWelcome(false);
         setJobs([]);
+        logEvent("job_search", {
+            desired_job: p.desiredJob,
+            profile: p.profile,
+            work_env: p.workEnv
+        });
         const res = await fetch(`${Config.BACKEND_URL}/search`, {
             method: "POST",
             headers: {
@@ -92,7 +99,7 @@ function JobSearchView(props: JobSearchViewProps) {
                     <Placeholder />
                 ) : (
                     props.jobs.map(job => (
-                        <JobCardView key={job.id} job={job} />
+                        <JobCard key={job.id} job={job} />
                     ))
                 )}
             </Stack>

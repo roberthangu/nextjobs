@@ -14,9 +14,10 @@ import {
     faUsers
 } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-bootstrap/esm/Modal";
-import { useState } from "react";
+import { FC, useState } from "react";
+import { useLogEvent } from "./FirebaseProvider";
 
-function RoleDetails(props: {
+function RoleDetailsView(props: {
     role: string;
     similarity: number;
     company: string;
@@ -78,7 +79,7 @@ function RoleDetails(props: {
     );
 }
 
-function CompanyDetails(props: {
+function CompanyDetailsView(props: {
     compFocusShort: string;
     roleActivitiesShort: string;
     roleReqsShort: string;
@@ -129,7 +130,7 @@ function CompanyDetails(props: {
     );
 }
 
-function Personalization(props: {
+function PersonalizationView(props: {
     commonalities: string;
     positioning: string;
 }) {
@@ -153,19 +154,62 @@ function Personalization(props: {
     );
 }
 
-interface JobCardViewProps {
-    job: Job;
+export function JobCard(props: { job: Job }) {
+    return <JobCardController view={JobCardView} {...props} />;
 }
 
-function JobDetails(props: {
+function JobCardController(props: { view: FC<JobCardViewProps>; job: Job }) {
+    const logEvent = useLogEvent();
+
+    const onHideJobDetails: OnHideJobDetailsType = button => {
+        logEvent("hide_job_details", {
+            button,
+            job_id: props.job.id,
+            job_title: props.job.role
+        });
+    };
+    const onClickApply: OnClickType = button => {
+        logEvent("job_apply", {
+            button,
+            job_id: props.job.id,
+            job_title: props.job.role
+        });
+    };
+    const onShowJobDetails = () => {
+        logEvent("job_show_details", {
+            job_id: props.job.id,
+            job_title: props.job.role
+        });
+    };
+
+    return props.view({
+        job: props.job,
+        onHideJobDetails: onHideJobDetails,
+        onClickApply,
+        onShowJobDetails
+    });
+}
+
+type OnHideJobDetailsType = (button: "cross" | "close") => void;
+type OnClickType = (target: "details_modal" | "job_card") => void;
+
+interface JobCardViewProps {
+    job: Job;
+    onHideJobDetails: OnHideJobDetailsType;
+    onClickApply: OnClickType;
+    onShowJobDetails: () => void;
+}
+
+function JobDetailsModalView(props: {
     role: string;
     jobDescription: string;
     originalPostingUrl: string;
     show: boolean;
-    onHide: () => void;
+    onHideJobDetails: OnHideJobDetailsType;
+    onClickApply: OnClickType;
 }) {
     return (
-        <Modal show={props.show} onHide={props.onHide}>
+        <Modal show={props.show} onHide={() => props.onHideJobDetails("cross")}>
             <Modal.Header closeButton>
                 <Modal.Title>{props.role}</Modal.Title>
             </Modal.Header>
@@ -174,11 +218,18 @@ function JobDetails(props: {
                 <p>{props.jobDescription}</p>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={props.onHide}>Close</Button>
+                <Button
+                    variant="secondary"
+                    onClick={() => props.onHideJobDetails("close")}
+                >
+                    Close
+                </Button>
                 <Button
                     variant="primary"
                     href={props.originalPostingUrl}
+                    onClick={() => props.onClickApply("details_modal")}
                     target="_blank"
+                    rel="noreferrer"
                 >
                     Apply
                 </Button>
@@ -221,16 +272,16 @@ export function JobCardView(props: JobCardViewProps) {
                         className="pb-4 px-3 px-sm-4 pb-5 pb-sm-4 g-5"
                     >
                         <Col>
-                            <RoleDetails {...job} />
+                            <RoleDetailsView {...job} />
                         </Col>
                         <Col>
-                            <CompanyDetails
+                            <CompanyDetailsView
                                 {...job}
                                 stackDirection="vertical"
                             />
                         </Col>
                     </Row>
-                    <Personalization
+                    <PersonalizationView
                         commonalities={job.commonalities}
                         positioning={job.positioning}
                     />
@@ -247,7 +298,10 @@ export function JobCardView(props: JobCardViewProps) {
                         <Button
                             variant="outline-primary"
                             className="w-100"
-                            onClick={() => setShowJobDesc(true)}
+                            onClick={() => {
+                                setShowJobDesc(true);
+                                props.onShowJobDetails();
+                            }}
                         >
                             Learn More
                         </Button>
@@ -263,9 +317,13 @@ export function JobCardView(props: JobCardViewProps) {
                     </Col>
                 </Row>
             </Card>
-            <JobDetails
+            <JobDetailsModalView
                 {...job}
-                onHide={() => setShowJobDesc(false)}
+                onHideJobDetails={button => {
+                    setShowJobDesc(false);
+                    props.onHideJobDetails(button);
+                }}
+                onClickApply={props.onClickApply}
                 show={showJobDesc}
             />
         </>
