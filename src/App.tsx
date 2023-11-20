@@ -18,6 +18,7 @@ function App() {
                             width="32"
                             height="32"
                             className="me-2"
+                            alt=""
                         />
                         Next Jobs
                     </Navbar.Brand>
