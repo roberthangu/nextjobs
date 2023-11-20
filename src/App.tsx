@@ -12,7 +12,15 @@ function App() {
                 className="shadow"
             >
                 <Container>
-                    <Navbar.Brand>Next Jobs</Navbar.Brand>
+                    <Navbar.Brand>
+                        <img
+                            src="logo256.svg"
+                            width="32"
+                            height="32"
+                            className="me-2"
+                        />
+                        Next Jobs
+                    </Navbar.Brand>
                     <Navbar.Text>AI-Powered Job Board</Navbar.Text>
                 </Container>
             </Navbar>
