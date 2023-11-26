@@ -1,5 +1,4 @@
 import { FC, useState } from "react";
-import Container from "react-bootstrap/esm/Container";
 import Spinner from "react-bootstrap/esm/Spinner";
 import Card from "react-bootstrap/esm/Card";
 import Stack from "react-bootstrap/esm/Stack";
@@ -91,18 +90,14 @@ function Welcome() {
 
 function JobSearchView(props: JobSearchViewProps) {
     return (
-        <Container style={{ marginTop: "100px" }}>
-            <Stack gap={4} className="mb-5">
-                <PreferencesFormView onSubmit={props.onPreferencesSubmitted} />
-                {props.showWelcome && <Welcome />}
-                {!props.showWelcome && props.jobs.length === 0 ? (
-                    <Placeholder />
-                ) : (
-                    props.jobs.map(job => (
-                        <JobCard key={job.id} job={job} />
-                    ))
-                )}
-            </Stack>
-        </Container>
+        <Stack gap={4} className="mb-5">
+            <PreferencesFormView onSubmit={props.onPreferencesSubmitted} />
+            {props.showWelcome && <Welcome />}
+            {!props.showWelcome && props.jobs.length === 0 ? (
+                <Placeholder />
+            ) : (
+                props.jobs.map(job => <JobCard key={job.id} job={job} />)
+            )}
+        </Stack>
     );
 }
