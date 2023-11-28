@@ -6,9 +6,9 @@ import { NavLink } from "react-router-dom";
 export default function HeaderView() {
     return (
         <Navbar
-            style={{ background: "#e7e7e7" }}
+            style={{ background: "#f7f7f7" }}
             fixed="top"
-            className="shadow"
+            className="shadow-sm"
         >
             <Container>
                 <Navbar.Brand as={NavLink} to="/">
