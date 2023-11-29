@@ -7,6 +7,8 @@ import { Job } from "./index.d";
 import { JobCard } from "./JobCard";
 import PreferencesFormView from "./PreferencesFormView";
 import { useLogEvent } from "./FirebaseProvider";
+import Hero from "./Hero";
+import Container from "react-bootstrap/esm/Container";
 
 interface JobSearchViewProps {
     jobs: Job[];
@@ -91,13 +93,16 @@ function Welcome() {
 function JobSearchView(props: JobSearchViewProps) {
     return (
         <Stack gap={4} className="mb-5">
-            <PreferencesFormView onSubmit={props.onPreferencesSubmitted} />
-            {props.showWelcome && <Welcome />}
-            {!props.showWelcome && props.jobs.length === 0 ? (
-                <Placeholder />
-            ) : (
-                props.jobs.map(job => <JobCard key={job.id} job={job} />)
-            )}
+            <Hero />
+            <Container className="mt-5">
+                <PreferencesFormView onSubmit={props.onPreferencesSubmitted} />
+                {props.showWelcome && <Welcome />}
+                {!props.showWelcome && props.jobs.length === 0 ? (
+                    <Placeholder />
+                ) : (
+                    props.jobs.map(job => <JobCard key={job.id} job={job} />)
+                )}
+            </Container>
         </Stack>
     );
 }

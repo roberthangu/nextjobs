@@ -1,20 +1,17 @@
-import Container from "react-bootstrap/Container";
 import Stack from "react-bootstrap/esm/Stack";
 import { Outlet } from "react-router-dom";
 import HeaderView from "./Header";
 
 export default function App() {
     return (
-        <>
+        <Stack className="justify-content-between vh-100">
             <HeaderView />
-            <Container style={{ marginTop: "100px" }}>
-                <Outlet />
-            </Container>
+            <Outlet />
             <Stack
                 direction="horizontal"
                 className="justify-content-center text-secondary mb-4"
             >
-                <span>
+                <span className="mt-5">
                     (c) 2023{" "}
                     <a
                         href="https://nextops.agency/?utm_source=nextjobs&utm_medium=footer"
@@ -25,6 +22,6 @@ export default function App() {
                     </a>
                 </span>
             </Stack>
-        </>
+        </Stack>
     );
 }
