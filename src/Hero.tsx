@@ -24,9 +24,19 @@ function BenefitsCard(props: { title: string; description: string }) {
 }
 
 export default function Hero() {
+    // change height to 100vh based on breakpoint
+    const getHeroHeight = () => {
+        const breakpoint = 768;
+        const width =
+            window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth;
+        return width > breakpoint ? "vh-100" : "";
+    }
+
     return (
         <div
-            className="vh-100"
+            className={getHeroHeight()}
             style={{
                 paddingTop: "20vh",
                 paddingBottom: 150,
