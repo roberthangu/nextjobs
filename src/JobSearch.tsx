@@ -95,13 +95,24 @@ function JobSearchView(props: JobSearchViewProps) {
         <Stack gap={4} className="mb-5">
             <Hero />
             <Container className="mt-5">
-                <PreferencesFormView onSubmit={props.onPreferencesSubmitted} />
-                {props.showWelcome && <Welcome />}
-                {!props.showWelcome && props.jobs.length === 0 ? (
-                    <Placeholder />
-                ) : (
-                    props.jobs.map(job => <JobCard key={job.id} job={job} />)
-                )}
+                <Stack gap={4}>
+                    <h3 className="text-center">Enter your details</h3>
+                    <p className="text-center">
+                        The more accurate you describe yourself, the better the
+                        results.
+                    </p>
+                    <PreferencesFormView
+                        onSubmit={props.onPreferencesSubmitted}
+                    />
+                    {props.showWelcome && <Welcome />}
+                    {!props.showWelcome && props.jobs.length === 0 ? (
+                        <Placeholder />
+                    ) : (
+                        props.jobs.map(job => (
+                            <JobCard key={job.id} job={job} />
+                        ))
+                    )}
+                </Stack>
             </Container>
         </Stack>
     );

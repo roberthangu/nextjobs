@@ -30,7 +30,7 @@ export default function PreferencesFormView(props: {
                         className="d-flex flex-column justify-items-between"
                     >
                         <Form.Label>
-                            1. Describe what job you're looking for.
+                            🔍 Describe what job you're looking for.
                         </Form.Label>
                         <Form.Control
                             style={{
@@ -48,7 +48,7 @@ export default function PreferencesFormView(props: {
                         className="d-flex flex-column justify-items-between"
                     >
                         <Form.Label>
-                            2. Describe yourself / Paste your CV here
+                            💪 Describe yourself / Paste your CV here
                         </Form.Label>
                         <Form.Control
                             style={{
@@ -66,7 +66,7 @@ export default function PreferencesFormView(props: {
                         className="d-flex flex-column justify-items-between"
                     >
                         <Form.Label>
-                            3. Describe your perfect work environment.
+                            👥 Describe your perfect work environment.
                         </Form.Label>
                         <Form.Control
                             style={{
