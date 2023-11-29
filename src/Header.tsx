@@ -6,12 +6,15 @@ import { NavLink } from "react-router-dom";
 export default function HeaderView() {
     return (
         <Navbar
-            style={{ background: "#f7f7f7" }}
+        style={{
+                background: "hsl(192deg 9.8% 20% / 70%)",
+                backdropFilter: "blur(8px)"
+        }}
             fixed="top"
             className="shadow-sm"
         >
             <Container>
-                <Navbar.Brand as={NavLink} to="/">
+                <Navbar.Brand as={NavLink} to="/" className="text-white">
                     <img
                         src="logo256.svg"
                         width="32"
@@ -26,7 +29,7 @@ export default function HeaderView() {
                         <Nav.Link
                             as={NavLink}
                             to="/login"
-                            className="text-center fs-6"
+                            className="text-center fs-6 text-white"
                         >
                             Login
                         </Nav.Link>
