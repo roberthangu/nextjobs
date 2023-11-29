@@ -26,11 +26,12 @@ function BenefitsCard(props: { title: string; description: string }) {
 export default function Hero() {
     return (
         <div
+            className="vh-100"
             style={{
-                paddingTop: 200,
+                paddingTop: "20vh",
                 paddingBottom: 150,
                 background:
-                    " linear-gradient(180deg, hsl(194deg 29.41% 20% / 95%) 7%, hsl(0deg 0% 0% / 0%) 79%), url('cover-background.jpg') center/cover"
+                    " linear-gradient(180deg, hsl(194deg 29.41% 20% / 100%) 10%, hsl(0deg 0% 0% / 0%) 79%), url('cover-background.jpg') center/cover"
             }}
         >
             <Container className="d-flex flex-column justify-content-center align-items-center gap-5">
