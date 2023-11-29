@@ -79,7 +79,7 @@ function Placeholder() {
 
 function Welcome() {
     return (
-        <Card>
+        <Card className="mt-4">
             <Card.Body className="d-flex justify-content-center align-items-center">
                 <Stack className="align-items-center" gap={2}>
                     <span>💼</span>
